@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AluraFlix - O canal de Vôlei</title>
+    <!-- Link para o Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #333; /* Cor de fundo para o modo escuro */
+            color: #fff; /* Cor do texto para o modo escuro */
+            transition: background-color 0.3s, color 0.3s; /* Transição suave entre modos */
+        }
+        body.light-mode {
+            background-color: #f4f4f4; /* Cor de fundo para o modo claro */
+            color: #333; /* Cor do texto para o modo claro */
+        }
+        header {
+            background-color: #444; /* Cor de fundo para o modo escuro */
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header.light-mode {
+            background-color: #ddd; /* Cor de fundo para o modo claro */
+            color: #333; /* Cor do texto para o modo claro */
+        }
+        header h1 {
+            margin: 0;
+        }
+        header .search-bar {
+            width: 40%;
+        }
+        header .search-bar input {
+            width: 80%;
+            padding: 8px;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        header.light-mode .search-bar input {
+            background-color: #fff; /* Cor de fundo para o campo de busca no modo claro */
+            color: #333; /* Cor do texto para o campo de busca no modo claro */
+        }
+        header .search-bar button {
+            padding: 8px;
+            background-color: #666;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        header.light-mode .search-bar button {
+            background-color: #333; /* Cor do botão no modo claro */
+            color: #fff; /* Cor do texto para o botão no modo claro */
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .main-content {
+            width: 100%;
+        }
+        .highlighted-video {
+            background-color: #444; /* Cor de fundo para o modo escuro */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            opacity: 0; /* Inicialmente invisível para animação de fade-in */
+            animation: fadeIn 1s forwards; /* Animação de fade-in */
+            position: relative; /* Adiciona contexto para o posicionamento da moldura */
+            transition: transform 0.3s ease; /* Transição suave para o efeito de hover */
+        }
+        .highlighted-video img {
+            width: 300px; /* Tamanho maior para o vídeo em destaque */
+            border: 5px solid #ff0000; /* Moldura vermelha ao redor do vídeo em destaque */
+            border-radius: 5px;
+            margin-right: 30px; /* Espaço maior à direita do vídeo em destaque */
+        }
+        .highlighted-video h3 {
+            margin: 0;
+        }
+        .highlighted-video p {
+            color: #ccc; /* Cor do texto para o modo escuro */
+        }
+        .highlighted-video::before {
+            content: "Em Destaque";
+            font-family: 'Roboto', sans-serif; /* Fonte do YouTube */
+            font-weight: 700;
+            color: #ff0000; /* Cor vermelha da etiqueta */
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #fff;
+            color: #ff0000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .video-card {
+            background-color: #444; /* Cor de fundo para o modo escuro */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            opacity: 0; /* Inicialmente invisível para animação de fade-in */
+            animation: fadeIn 1s forwards; /* Animação de fade-in */
+            transition: transform 0.3s ease; /* Transição suave para o efeito de hover */
+            position: relative; /* Adiciona contexto para o posicionamento da moldura */
+            margin-left: 30px; /* Espaço maior à esquerda dos vídeos */
+        }
+        .video-card img {
+            width: 200px;
+            border-radius: 5px;
+            margin-right: 30px; /* Espaço maior à direita da imagem do vídeo */
+            border: 5px solid #28a745; /* Moldura verde */
+        }
+        .video-card h3 {
+            margin: 0;
+        }
+        .video-card p {
+            color: #ccc; /* Cor do texto para o modo escuro */
+        }
+        .video-card:hover, .highlighted-video:hover {
+            transform: scale(1.05); /* Aumenta o tamanho do vídeo ao passar o mouse */
+        }
+        .video-card::before {
+            content: "Novo";
+            font-family: 'Roboto', sans-serif; /* Fonte do YouTube */
+            font-weight: 700;
+            color: #fff; /* Cor do texto da etiqueta */
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #28a745; /* Cor verde da moldura */
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        footer {
+            background-color: #444; /* Cor de fundo para o modo escuro */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        footer.light-mode {
+            background-color: #ddd; /* Cor de fundo para o modo claro */
+            color: #333; /* Cor do texto para o modo claro */
+        }
+        .theme-toggle-button {
+            padding: 10px 15px;
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle-button:hover {
+            background-color: #666;
+            transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+        }
+        .theme-toggle-button i {
+            font-size: 20px;
+        }
+        /* Animação de fade-in */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AluraFlix</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Pesquisar vídeos de vôlei...">
+            <button>Buscar</button>
+        </div>
+        <button class="theme-toggle-button" onclick="toggleTheme()">
+            <i id="theme-icon" class="fas fa-moon"></i> <!-- Ícone da lua -->
+        </button>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Vídeo em destaque -->
+            <div class="highlighted-video">
+                <a href="https://www.youtube.com/watch?v=aQ_ZE7ogHOY" target="_blank">
+                    <img src="hq720.webp" alt="Thumbnail do Vídeo" width="300">
+                </a>
+                <div>
+                    <h3>BRASIL 3 X 2 ITÁLIA | MELHORES MOMENTOS</h3>
+                    <p>Assista aos melhores momentos da grande partida entre Brasil e Itália.</p>
+                </div>
+            </div>
+
+            <!-- Outros vídeos -->
+            <div class="video-card">
+                <a href="https://www.youtube.com/watch?v=Eqj5jrRaF_M" target="_blank">
+                    <img src="hq720 (1).webp" alt="Thumbnail do Vídeo" width="200">
+                </a>
+                <div>
+                    <h3>Volei - Jogadas e lances incríveis no Voleibol</h3>
+                    <p>Melhores jogadas de vôlei.</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <a href="https://www.youtube.com/watch?v=u7qtV9HN7Fs" target="_blank">
+                    <img src="hq720 (2).webp" alt="Thumbnail do Vídeo" width="200">
+                </a>
+                <div>
+                    <h3>SAQUE POR CIMA | PASSO A PASSO | VOLEIBOL</h3>
+                    <p>Dicas para melhorar seu saque no vôlei.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const header = document.querySelector('header');
+            const footer = document.querySelector('footer');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                header.classList.remove('light-mode');
+                footer.classList.remove('light-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                body.classList.add('light-mode');
+                header.classList.add('light-mode');
+                footer.classList.add('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+    </script>
+</body>
+</html>
